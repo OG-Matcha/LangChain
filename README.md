@@ -1,1 +1,1 @@
-This is some application built with LangChain and LLMs
+Here are some applications built with LangChain and LLMs
