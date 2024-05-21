@@ -13,8 +13,8 @@
    3. 點進去後按下**Create new **secret** key**
    4. 名字隨便寫、Project 選 Default、Permission 開 All
 
-        > [!IMPORTANT]
-        請記得一定要複製生成的 API KEY，將他複製到你創建好的 .env 的 OPEN_API_KEY 的字串內
+> [!IMPORTANT]
+請記得一定要複製生成的 API KEY，將他複製到你創建好的 .env 的 OPEN_API_KEY 的字串內
 
 * 確保你現在終端機在虛擬環境下
 * 在和 app.py 同路徑下終端機輸入 `streamlit run app.py` 即可看到跳出的網頁，輸入問題案查詢即可看到回答
