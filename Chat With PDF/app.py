@@ -1,4 +1,5 @@
 import os
+import streamlit as st
 from langchain_community.document_loaders import PyPDFDirectoryLoader
 from langchain_community.vectorstores import FAISS
 from langchain.text_splitter import RecursiveCharacterTextSplitter
@@ -34,7 +35,7 @@ def search(db, query, k=5):
 
 
 def load_faiss(embeddings):
-    return FAISS.load_local("faiss_index", embeddings)
+    return FAISS.load_local("faiss_index", embeddings, allow_dangerous_deserialization=True)
 
 
 def retrieve_answers(db, query, chain):
@@ -43,7 +44,7 @@ def retrieve_answers(db, query, chain):
     return response['output_text']
 
 
-if __name__ == "__main__":
+def main():
     load_dotenv()
 
     embeddings = OpenAIEmbeddings(api_key=os.getenv('OPEN_API_KEY'))
@@ -51,11 +52,16 @@ if __name__ == "__main__":
                  temperature=0.5, max_tokens=600)
     chain = load_qa_chain(llm, chain_type="stuff")
 
-    # build_faiss(embeddings)
+    if not os.path.exists("faiss_index"):
+        build_faiss(embeddings)
 
     db = load_faiss(embeddings)
+    query = st.text_input("請輸入你的問題:")
 
-    query = "中大附近有甚麼好吃的嗎?"
+    if st.button('查詢'):
+        answer = retrieve_answers(db, query, chain)
+        st.write(answer)
 
-    answer = retrieve_answers(db, query, chain)
-    print(answer)
+
+if __name__ == "__main__":
+    main()
